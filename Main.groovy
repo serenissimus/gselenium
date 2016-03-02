@@ -29,8 +29,22 @@ import org.openqa.selenium.ie.InternetExplorerDriver
 
 /* ------------------------------------------------------------------------------ */
 
+// http://chromedriver.storage.googleapis.com/index.html?path=2.21/
+// TODO: add multiplatform support
+System.setProperty("webdriver.chrome.driver", "drivers/linux32/chromedriver")
+
+/* ------------------------------------------------------------------------------ */
+
 /*
- groovydoc -public -classpath ${HOME}/.sdkman/groovy/current/lib/ -d output -windowtitle "Groovy Selenium Wrapper" -header "Groovy Selenium Wrapper" -footer "" -doctitle ""  *.groovy *.java
+ groovydoc \
+    -d docs \
+    -public \
+    -classpath ${HOME}/.sdkman/candidates/groovy/current/lib \
+    -windowtitle "Groovy Selenium Wrapper" \
+    -header "Groovy Selenium Wrapper" \
+    -footer "" \
+    -doctitle "" \
+    *.groovy *.java
 */
 
 /**
@@ -176,23 +190,22 @@ class Date
 
     private java.util.Date _date;
 
-    /** @hide */
     public Date(java.util.Date date) {
         setDate(date)
     }
 
-    /** @hide */
     public java.util.Date getDate() {
         return _date;
     }
 
-    /** @hide */
     public setDate(java.util.Date date) {
         _date = date
     }
 }
 
 
+// TODO: see sun.misc.unsafe usage for less noisy constructor
+// TODO: of original Cookie class
 /**
  * Класс для работы с Cookie-файлами
  */
@@ -206,8 +219,8 @@ class Cookie
     }
 
     /**
-     *
-     * @return
+     * Вернуть домен
+     * @return Домен
      */
     public String getDomain() {
         if (null == getCookie()) {
@@ -217,8 +230,8 @@ class Cookie
     }
 
     /**
-     *
-     * @param domain
+     * Установить домен
+     * @param domain Домен
      */
     public void setDomain(String domain) {
         setCookie(new org.openqa.selenium.Cookie(
@@ -230,8 +243,8 @@ class Cookie
     }
 
     /**
-     *
-     * @return
+     * Вернуть путь
+     * @return Путь
      */
     public String getPath() {
         if (null == getCookie()) {
@@ -241,8 +254,8 @@ class Cookie
     }
 
     /**
-     *
-     * @param path
+     * Установить путь
+     * @param path Путь
      */
     public void setPath(String path) {
         setCookie(new org.openqa.selenium.Cookie(
@@ -254,8 +267,8 @@ class Cookie
     }
 
     /**
-     *
-     * @return
+     * Вернуть имя
+     * @return Имя
      */
     public String getName() {
         if (null == getCookie()) {
@@ -265,8 +278,8 @@ class Cookie
     }
 
     /**
-     *
-     * @param name
+     * Установить имя
+     * @param name Имя
      */
     public void setName(String name) {
         setCookie(new org.openqa.selenium.Cookie(
@@ -278,8 +291,8 @@ class Cookie
     }
 
     /**
-     *
-     * @return
+     * Вернуть значение
+     * @return Значение
      */
     public String getValue() {
         if (null == getCookie()) {
@@ -289,8 +302,8 @@ class Cookie
     }
 
     /**
-     *
-     * @param value
+     * Установить значение
+     * @param value Значение
      */
     public void setValue(String value) {
         setCookie(new org.openqa.selenium.Cookie(
@@ -302,8 +315,8 @@ class Cookie
     }
 
     /**
-     *
-     * @return
+     * Вернуть дату "протухания"
+     * @return Дата "протухания" {@link Date}
      */
     public Date getExpiry() {
         if (null == getCookie()) {
@@ -313,8 +326,8 @@ class Cookie
     }
 
     /**
-     *
-     * @param expiry
+     * Установить дату "протухания"
+     * @param expiry Дата "протухания" {@link Date}
      */
     public void setExpiry(Date expiry) {
         setCookie(new org.openqa.selenium.Cookie(
@@ -328,17 +341,14 @@ class Cookie
 
     private org.openqa.selenium.Cookie _cookie;
 
-    /** @hide */
     public Cookie(org.openqa.selenium.Cookie cookie) {
         setCookie(cookie)
     }
 
-    /** @hide */
     public org.openqa.selenium.Cookie getCookie() {
         return _cookie
     }
 
-    /** @hide */
     public void setCookie(org.openqa.selenium.Cookie cookie) {
         _cookie = cookie
     }
@@ -351,93 +361,78 @@ class Cookie
 class WebElement
 {
     /**
-     *
-     * @return
+     * Вернуть координату X вернего левого угла элемента
+     * @return Координата X
      */
     public int getX() {
         return getWebElement().getLocation().getX()
     }
 
     /**
-     *
-     * @return
+     * Вернуть координату Y вернего левого угла элемента
+     * @return Координата Y
      */
     public int getY() {
         return getWebElement().getLocation().getY()
     }
 
     /**
-     *
-     * @return
+     * Вернуть ширину элемента
+     * @return Ширина
      */
     public int getWidth() {
         return getWebElement().getSize().getWidth()
     }
 
     /**
-     *
-     * @return
+     * Вернуть высоту элемента
+     * @return Высота
      */
     public int getHeight() {
         return getWebElement().getSize().getHeight()
     }
 
+    // TODO: подумать над тем как бы получше именовать
+    // TODO: подумать над правильным JavaDoc
     /**
-     *
-     * @return
+     * Элемент отображается на странице?
+     * @return Отображается?
      */
     public boolean isDisplayed() {
         return getWebElement().isDisplayed()
     }
 
+    // TODO: подумать над тем как бы получше именовать
+    // TODO: подумать над правильным JavaDoc
     /**
-     *
-     * @return
+     * Элемент включён?
+     * @return Включён?
      */
     public boolean isEnabled() {
         return getWebElement().isEnabled()
     }
 
+    // TODO: подумать над тем как бы получше именовать
+    // TODO: подумать над правильным JavaDoc
     /**
-     *
-     * @return
+     * Элемент выбран?
+     * @return Выбран?
      */
     public boolean isSelected() {
         return getWebElement().isSelected()
     }
 
-    /**
-     *
-     * @param cssPath
-     * @return
-     */
-    public WebElement findElement(String cssPath) {
-        return new WebElement(getWebElement().findElement(org.openqa.selenium.By.cssSelector(cssPath)))
-    }
-
-    /**
-     *
-     * @param cssPath
-     * @return
-     */
-    public List<WebElement> findElements(String cssPath) {
-        return getWebElement().findElements(org.openqa.selenium.By.cssSelector(cssPath)).collect(new WebElement(it))
-    }
-
 
     private org.openqa.selenium.WebElement _webElement;
 
-    /** @hide */
     public WebElement(org.openqa.selenium.WebElement webElement) {
         setWebElement(webElement)
     }
 
-    /** @hide */
     public org.openqa.selenium.WebElement getWebElement() {
         return _webElement
     }
 
-    /** @hide */
     public void setWebElement(org.openqa.selenium.WebElement webElement) {
         _webElement = webElement
     }
@@ -453,7 +448,19 @@ class WebDriver {
      * Конструктор
      * @param type Тип браузера("Chrome","Firefox","Htmlunit","Ie")
      */
-    public WebDriver(String type) {}
+    public WebDriver(String type) {
+        if (null != type) {
+            type = type.toLowerCase()
+        }
+        if ("chrome".equals(type)) {
+            setWebDriver(new org.openqa.selenium.chrome.ChromeDriver())
+        } else if ("firefox".equals(type)) {
+            setWebDriver(new org.openqa.selenium.firefox.FirefoxDriver())
+        } else if ("htmlunit".equals(type)) {
+            setWebDriver(new org.openqa.selenium.htmlunit.HtmlUnitDriver())
+        }
+        assert (null != getWebDriver())
+    }
 
     /**
      * Открыть страницу сайта в браузере
@@ -494,146 +501,183 @@ class WebDriver {
 
     /**
      * Вернуть положение окна браузера по X относительно верхнего левого угла
-     * @return
+     * @return Координата X окна браузера
      */
     public int getX() {
-        return getWebDriver().manage().window().getPosition().getX()
+        return getWebDriver()
+                    .manage()
+                    .window()
+                    .getPosition()
+                    .getX()
     }
 
     /**
-     *
-     * @param x
+     * Установить положение окна браузера по X относительно верхнего левого угла
+     * @param x Координата X окна браузера
      */
     public void setX(int x) {
-        getWebDriver().manage().window().setPosition(new org.openqa.selenium.Point(x, getY()))
+        getWebDriver()
+                .manage()
+                .window()
+                .setPosition(new org.openqa.selenium.Point(x, getY()))
     }
 
     /**
-     *
-     * @return
+     * Вернуть положение окна браузера по Y относительно верхнего левого угла
+     * @return Координата Y окна браузера
      */
     public int getY() {
-        return getWebDriver().manage().window().getPosition().getY()
+        return getWebDriver()
+                    .manage()
+                    .window()
+                    .getPosition()
+                    .getY()
     }
 
     /**
-     *
-     * @param y
+     * Установить положение окна браузера по Y относительно верхнего левого угла
+     * @param y Координата Y окна браузера
      */
     public void setY(int y) {
-        getWebDriver().manage().window().setPosition(new org.openqa.selenium.Point(getX(), y))
+        getWebDriver()
+                .manage()
+                .window()
+                .setPosition(new org.openqa.selenium.Point(getX(), y))
     }
 
     /**
-     *
-     * @return
+     * Вернуть ширину окна браузера
+     * @return Ширина окна браузера
      */
     public int getWidth() {
-        return getWebDriver().manage().window().getSize().getWidth()
+        return getWebDriver()
+                    .manage()
+                    .window()
+                    .getSize()
+                    .getWidth()
     }
 
     /**
-     *
-     * @param width
+     * Установить ширину окна браузера
+     * @param width Ширина окна браузера
      */
     public void setWidth(int width) {
-        getWebDriver().manage().window().setSize(new org.openqa.selenium.Dimension(width, getHeight()))
+        getWebDriver()
+                .manage()
+                .window()
+                .setSize(new org.openqa.selenium.Dimension(width, getHeight()))
     }
 
     /**
-     *
-     * @return
+     * Вернуть высоту окна браузера
+     * @return Высота окна браузера
      */
     public int getHeight() {
-        return getWebDriver().manage().window().getSize().getHeight()
+        return getWebDriver()
+                    .manage()
+                    .window()
+                    .getSize()
+                    .getHeight()
     }
 
     /**
-     *
-     * @param height
+     * Установить высоту окна браузера
+     * @param height Высота окна браузера
      */
     public void setHeight(int height) {
-        getWebDriver().manage().window().setSize(new org.openqa.selenium.Dimension(getWidth(), height))
+        getWebDriver()
+                .manage()
+                .window()
+                .setSize(new org.openqa.selenium.Dimension(getWidth(), height))
     }
 
     /**
-     *
+     * Максимализировать("распахнуть") окно браузера во весь экран
      */
     public void maximize() {
         getWebDriver().manage().window().maximize()
     }
 
     /**
-     *
-     * @param cssPath
-     * @return
+     * Найти элемент по CSS пути
+     * @param cssPath CSS путь(селектор) элемента
+     * @return Веб элемент или null если не найден {@link WebElement}
      */
     public WebElement findElement(String cssPath) {
-        return new WebElement(getWebDriver().findElement(org.openqa.selenium.By.cssSelector(cssPath)))
+        try {
+            return new WebElement(
+                    getWebDriver()
+                            .findElement(
+                                org.openqa.selenium.By.cssSelector(cssPath)))
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+            return null
+        }
     }
 
     /**
-     *
-     * @param cssPath
-     * @return
+     * Найти элементы по CSS пути
+     * @param cssPath CSS путь(селектор) элементов
+     * @return Список веб элементов {@link WebElement}
      */
     public List<WebElement> findElements(String cssPath) {
-        return getWebDriver().findElements(org.openqa.selenium.By.cssSelector(cssPath)).collect(new WebElement(it))
+        return getWebDriver()
+                    .findElements(org.openqa.selenium.By.cssSelector(cssPath))
+                .collect({ new WebElement(it) })
     }
 
     /**
-     *
-     * @return
+     * Вернуть список Cookie файлов
+     * @return Сисок Cookie файлов  {@link Cookie}
      */
     public List<Cookie> getCookies() {
-        return getWebDriver().manage().getCookies().collect(new Cookie(it))
+        return getWebDriver().manage().getCookies().collect({ new Cookie(it) })
     }
 
     /**
-     *
-     * @param cookie
+     * Добавить Cookie файл
+     * @param cookie Cookie файл для добавления {@link Cookie}
      */
     public void addCoockie(Cookie cookie) {
         getWebDriver().manage().addCookie(cookie.getCookie())
     }
 
     /**
-     *
-     * @param cookie
+     * Удалить Cookie файл
+     * @param cookie Cookie файл для удаления  {@link Cookie}
      */
     public void deleteCookie(Cookie cookie) {
         getWebDriver().manage().deleteCookie(cookie.getCookie())
     }
 
     /**
-     *
+     * Удалить все Cookie файлы
      */
     public void deleteAllCookies() {
         getWebDriver().manage().deleteAllCookies()
     }
 
     /**
-     *
-     * @param script
+     * Выполнить JavaScript строку
+     * @param script Строка JavaScript
+     * @param args Необязательные аргументы в JavaScript(могут быть получены в
+     *              JavaScript через arguments[<номер аргумента>]
      */
-    public void executeJavaScript(String script) {
-        getWebDriver()
+    public void executeJavaScript(String script, Object ...args) {
+        ((org.openqa.selenium.JavascriptExecutor) getWebDriver())
+                .executeScript(script, args)
     }
 
 
     private org.openqa.selenium.WebDriver _webDriver;
 
-    /** @hide */
     public WebDriver(org.openqa.selenium.WebDriver webDriver) {
         setWebDriver(webDriver)
     }
 
-    /** @hide */
     public org.openqa.selenium.WebDriver getWebDriver() {
         return _webDriver
     }
 
-    /** @hide */
     public void setWebDriver(org.openqa.selenium.WebDriver webDriver) {
         _webDriver = webDriver
     }
@@ -764,18 +808,26 @@ class Actions
 /* ------------------------------------------------------------------------------ */
 
 def driver = new WebDriver("Chrome")
+driver.setX(0)
+driver.setY(0)
 driver.setWidth(1024)
 driver.setHeight(768)
 
 driver.open("http://madagascartc.ru")
-def elem = driver.findElement("#elem")
-assert(null != elem)
+def element = driver.findElement("#section-first")
+def elements = driver.findElements("p")
+
+println element
+println elements
+
+
+/*
 def actions = new Actions()
 actions
         .mouseMoveToElement(elem)
         .click()
         .perform(driver)
-
+*/
 
 driver.quit()
 
