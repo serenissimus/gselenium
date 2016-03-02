@@ -47,6 +47,8 @@ System.setProperty("webdriver.chrome.driver", "drivers/linux32/chromedriver")
     *.groovy *.java
 */
 
+
+// TODO: test for sending keys into web elements
 /**
  *
  */
@@ -79,6 +81,7 @@ class Keys
 }
 
 
+// TODO: check for set all data
 /**
  * Класс для работы с Датой
  */
@@ -190,15 +193,15 @@ class Date
 
     private java.util.Date _date;
 
-    public Date(java.util.Date date) {
+    Date(java.util.Date date) {
         setDate(date)
     }
 
-    public java.util.Date getDate() {
+    java.util.Date getDate() {
         return _date;
     }
 
-    public setDate(java.util.Date date) {
+    private void setDate(java.util.Date date) {
         _date = date
     }
 }
@@ -206,6 +209,12 @@ class Date
 
 // TODO: see sun.misc.unsafe usage for less noisy constructor
 // TODO: of original Cookie class
+
+// TODO: check for set all data
+
+// TODO: check what happens with Date - value of year field is very small
+
+// TODO: getExpiry - check for null
 /**
  * Класс для работы с Cookie-файлами
  */
@@ -322,6 +331,9 @@ class Cookie
         if (null == getCookie()) {
             return null
         }
+        if (null == getCookie().getExpiry()) {
+            return null
+        }
         return new Date(getCookie().getExpiry())
     }
 
@@ -341,15 +353,15 @@ class Cookie
 
     private org.openqa.selenium.Cookie _cookie;
 
-    public Cookie(org.openqa.selenium.Cookie cookie) {
+    Cookie(org.openqa.selenium.Cookie cookie) {
         setCookie(cookie)
     }
 
-    public org.openqa.selenium.Cookie getCookie() {
+    org.openqa.selenium.Cookie getCookie() {
         return _cookie
     }
 
-    public void setCookie(org.openqa.selenium.Cookie cookie) {
+    private void setCookie(org.openqa.selenium.Cookie cookie) {
         _cookie = cookie
     }
 }
@@ -425,15 +437,15 @@ class WebElement
 
     private org.openqa.selenium.WebElement _webElement;
 
-    public WebElement(org.openqa.selenium.WebElement webElement) {
+    WebElement(org.openqa.selenium.WebElement webElement) {
         setWebElement(webElement)
     }
 
-    public org.openqa.selenium.WebElement getWebElement() {
+    org.openqa.selenium.WebElement getWebElement() {
         return _webElement
     }
 
-    public void setWebElement(org.openqa.selenium.WebElement webElement) {
+    private void setWebElement(org.openqa.selenium.WebElement webElement) {
         _webElement = webElement
     }
 }
@@ -444,6 +456,7 @@ class WebElement
  */
 class WebDriver {
 
+    // TODO: add support for Ie, Opera(maybe...), Android(maybe...), Safari
     /**
      * Конструктор
      * @param type Тип браузера("Chrome","Firefox","Htmlunit","Ie")
@@ -458,6 +471,8 @@ class WebDriver {
             setWebDriver(new org.openqa.selenium.firefox.FirefoxDriver())
         } else if ("htmlunit".equals(type)) {
             setWebDriver(new org.openqa.selenium.htmlunit.HtmlUnitDriver())
+        } else if ("ie".equals(type)) {
+            setWebDriver(new org.openqa.selenium.ie.InternetExplorerDriver())
         }
         assert (null != getWebDriver())
     }
@@ -497,7 +512,12 @@ class WebDriver {
      * Сделать и сохранить скриншот экрана
      * @param screenshotSavePath Путь куда сохранить скриншот
      */
-    public void getScreenshot(String screenshotSavePath) {}
+    public void getScreenshot(String screenshotSavePath) {
+        File scrFile =
+                ((org.openqa.selenium.TakesScreenshot) getWebDriver())
+                        .getScreenshotAs(OutputType.FILE)
+        FileUtils.copyFile(scrFile, new File(screenshotSavePath))
+    }
 
     /**
      * Вернуть положение окна браузера по X относительно верхнего левого угла
@@ -656,6 +676,7 @@ class WebDriver {
         getWebDriver().manage().deleteAllCookies()
     }
 
+    // TODO: Maybe can override ellipsis by list(see toArray method)
     /**
      * Выполнить JavaScript строку
      * @param script Строка JavaScript
@@ -668,17 +689,17 @@ class WebDriver {
     }
 
 
-    private org.openqa.selenium.WebDriver _webDriver;
+    private org.openqa.selenium.WebDriver _webDriver
 
-    public WebDriver(org.openqa.selenium.WebDriver webDriver) {
+    WebDriver(org.openqa.selenium.WebDriver webDriver) {
         setWebDriver(webDriver)
     }
 
-    public org.openqa.selenium.WebDriver getWebDriver() {
+    org.openqa.selenium.WebDriver getWebDriver() {
         return _webDriver
     }
 
-    public void setWebDriver(org.openqa.selenium.WebDriver webDriver) {
+    private void setWebDriver(org.openqa.selenium.WebDriver webDriver) {
         _webDriver = webDriver
     }
 }
@@ -692,13 +713,28 @@ class Actions
     /**
      * Конструктор
      */
-    public Actions() {}
+    public Actions(WebDriver webDriver) {
+        setActions(
+                new org.openqa.selenium.interactions.Actions(
+                        webDriver.getWebDriver()))
+    }
 
     /**
      *
      * @return
      */
     public Actions click() {
+        getActions().click()
+        return this
+    }
+
+    /**
+     *
+     * @param webElement
+     * @return
+     */
+    public Actions click(WebElement webElement) {
+        getActions().click(webElement.getWebElement())
         return this
     }
 
@@ -707,6 +743,17 @@ class Actions
      * @return
      */
     public Actions clickContext() {
+        getActions().contextClick()
+        return this
+    }
+
+    /**
+     *
+     * @param webElement
+     * @return
+     */
+    public Actions clickContext(WebElement webElement) {
+        getActions().contextClick(webElement.getWebElement())
         return this
     }
 
@@ -715,6 +762,17 @@ class Actions
      * @return
      */
     public Actions clickAndHold() {
+        getActions().clickAndHold()
+        return this
+    }
+
+    /**
+     *
+     * @param webElement
+     * @return
+     */
+    public Actions clickAndHold(WebElement webElement) {
+        getActions().clickAndHold(webElement.getWebElement())
         return this
     }
 
@@ -723,6 +781,17 @@ class Actions
      * @return
      */
     public Actions releaseHold() {
+        getActions().release()
+        return this
+    }
+
+    /**
+     *
+     * @param webElement
+     * @return
+     */
+    public Actions releaseHold(WebElement webElement) {
+        getActions().release(webElement.getWebElement())
         return this
     }
 
@@ -731,6 +800,17 @@ class Actions
      * @return
      */
     public Actions doubleClick() {
+        getActions().doubleClick()
+        return this
+    }
+
+    /**
+     *
+     * @param webElement
+     * @return
+     */
+    public Actions doubleClick(WebElement webElement) {
+        getActions().doubleClick(webElement.getWebElement())
         return this
     }
 
@@ -739,7 +819,20 @@ class Actions
      * @param key
      * @return
      */
-    public Actions keyDown(def key) {
+    public Actions keyDown(CharSequence key) {
+        getActions().keyDown((org.openqa.selenium.Keys) key)
+        return this
+    }
+
+    /**
+     *
+     * @param webElement
+     * @param key
+     * @return
+     */
+    public Actions keyDown(WebElement webElement, CharSequence key) {
+        getActions()
+                .keyDown(webElement.getWebElement(), (org.openqa.selenium.Keys) key)
         return this
     }
 
@@ -748,7 +841,20 @@ class Actions
      * @param key
      * @return
      */
-    public Actions keyUp(def key) {
+    public Actions keyUp(CharSequence key) {
+        getActions().keyUp((org.openqa.selenium.Keys) key)
+        return this
+    }
+
+    /**
+     *
+     * @param webElement
+     * @param key
+     * @return
+     */
+    public Actions keyUp(WebElement webElement, CharSequence key) {
+        getActions()
+                .keyUp(webElement.getWebElement(), (org.openqa.selenium.Keys) key)
         return this
     }
 
@@ -757,17 +863,18 @@ class Actions
      * @param keys
      * @return
      */
-    public Actions sendKeys(def keys) {
+    public Actions sendKeys(CharSequence ...keys) {
+        getActions().sendKeys(keys)
         return this
     }
 
     /**
      *
-     * @param x
-     * @param y
+     * @param keys
      * @return
      */
-    public Actions mouseMove(int x, int y) {
+    public Actions sendKeys(WebElement webElement, CharSequence ...keys) {
+        getActions().sendKeys(webElement.getWebElement(), keys)
         return this
     }
 
@@ -777,7 +884,8 @@ class Actions
      * @param yOffset
      * @return
      */
-    public Actions mouseMoveByOffset(int xOffset, int yOffset) {
+    public Actions mouseMove(int xOffset, int yOffset) {
+        getActions().moveByOffset(xOffset, yOffset)
         return this
     }
 
@@ -786,15 +894,49 @@ class Actions
      * @param element
      * @return
      */
-    public Actions mouseMoveToElement(WebElement element) {
+    public Actions mouseMove(WebElement element) {
+        getActions().moveToElement(element.getWebElement())
         return this
     }
 
     /**
      *
+     * @param element
+     * @param xOffset
+     * @param yOffset
      * @return
      */
-    public Actions dragAndDrop() {
+    public Actions mouseMove(WebElement element, int xOffset, int yOffset) {
+        getActions().moveToElement(element.getWebElement(), xOffset, yOffset)
+        return this
+    }
+
+    /**
+     *
+     * @param source
+     * @param target
+     * @return
+     */
+    public Actions dragAndDrop(WebElement source, WebElement target) {
+        getActions().dragAndDrop(
+                source.getWebElement(),
+                target.getWebElement())
+        return this
+    }
+
+    /**
+     *
+     * @param webElement
+     * @param xOffset
+     * @param yOffset
+     * @return
+     */
+    public Actions dragAndDrop(WebElement webElement, int xOffset, int yOffset) {
+        getActions().dragAndDropBy(
+                source.getWebElement(),
+                xOffset,
+                yOffset
+        )
         return this
     }
 
@@ -802,7 +944,24 @@ class Actions
      *
      * @param driver
      */
-    public void perform(WebDriver driver) {}
+    public void perform() {
+        getActions().perform()
+    }
+
+
+    private org.openqa.selenium.interactions.Actions _actions;
+
+    Actions(org.openqa.selenium.interactions.Actions actions) {
+        setActions(actions)
+    }
+
+    public org.openqa.selenium.interactions.Actions getActions() {
+        return _actions
+    }
+
+    private setActions(org.openqa.selenium.interactions.Actions actions) {
+        _actions = actions
+    }
 }
 
 /* ------------------------------------------------------------------------------ */
@@ -820,14 +979,57 @@ def elements = driver.findElements("p")
 println element
 println elements
 
+println "-------------------------"
+println element.getX()
+println element.getY()
+println element.getWidth()
+println element.getHeight()
+println element.isDisplayed()
+println element.isEnabled()
+println element.isSelected()
 
-/*
-def actions = new Actions()
+for (def e in elements) {
+    println "-------------------------"
+    println e.getX()
+    println e.getY()
+    println e.getWidth()
+    println e.getHeight()
+    println e.isDisplayed()
+    println e.isEnabled()
+    println e.isSelected()
+}
+
+def cookies = driver.getCookies()
+for (def c in cookies) {
+    println "-------------------------"
+    println c.getDomain()
+    println c.getPath()
+    println c.getName()
+    println c.getValue()
+    if (null != c.getExpiry()) {
+        print "  "
+        println c.getExpiry().getYear()
+        print "  "
+        println c.getExpiry().getMonth()
+        print "  "
+        println c.getExpiry().getDay()
+        print "  "
+        println c.getExpiry().getHours()
+        print "  "
+        println c.getExpiry().getMinutes()
+        print "  "
+        println c.getExpiry().getSeconds()
+    }
+}
+
+def elementShops = driver.findElement("body > div.header > div.menu > div.container > div > div:nth-child(1) > div > ul > li:nth-child(1) > a")
+def actions = new Actions(driver)
 actions
-        .mouseMoveToElement(elem)
+        .mouseMove(elementShops)
         .click()
-        .perform(driver)
-*/
+        .perform()
+
+sleep(5000)
 
 driver.quit()
 
