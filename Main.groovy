@@ -52,8 +52,8 @@ System.setProperty("webdriver.chrome.driver", "drivers/linux32/chromedriver")
 /**
  *
  */
-class Keys
-{
+class Keys {
+
     /**
      * Клавиша Enter
      */
@@ -85,8 +85,8 @@ class Keys
 /**
  * Класс для работы с Датой
  */
-class Date
-{
+class Date {
+
     /**
      * Конструктор
      */
@@ -218,8 +218,8 @@ class Date
 /**
  * Класс для работы с Cookie-файлами
  */
-class Cookie
-{
+class Cookie {
+
     /**
      * Конструктор
      */
@@ -370,8 +370,8 @@ class Cookie
 /**
  * Класс веб-элемент
  */
-class WebElement
-{
+class WebElement {
+
     /**
      * Вернуть координату X вернего левого угла элемента
      * @return Координата X
@@ -708,8 +708,8 @@ class WebDriver {
 /**
  * Класс действия пользователя
  */
-class Actions
-{
+class Actions {
+
     /**
      * Конструктор
      * @param webDriver Веб драйвер {@link WebDriver}
