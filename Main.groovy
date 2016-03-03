@@ -712,6 +712,7 @@ class Actions
 {
     /**
      * Конструктор
+     * @param webDriver Веб драйвер {@link WebDriver}
      */
     public Actions(WebDriver webDriver) {
         setActions(
@@ -720,8 +721,8 @@ class Actions
     }
 
     /**
-     *
-     * @return
+     * Кликнуть левой кнопкой мыши
+     * @return Объект Список действий {@link Actions}
      */
     public Actions click() {
         getActions().click()
@@ -729,9 +730,9 @@ class Actions
     }
 
     /**
-     *
-     * @param webElement
-     * @return
+     * Кликнуть левой кнопкой мыши по веб элементу
+     * @param webElement Веб элемент {@link WebElement}
+     * @return Объект Список действий {@link Actions}
      */
     public Actions click(WebElement webElement) {
         getActions().click(webElement.getWebElement())
@@ -739,8 +740,8 @@ class Actions
     }
 
     /**
-     *
-     * @return
+     * Кликнуть по содержимому
+     * @return Объект Список действий {@link Actions}
      */
     public Actions clickContext() {
         getActions().contextClick()
@@ -748,9 +749,9 @@ class Actions
     }
 
     /**
-     *
-     * @param webElement
-     * @return
+     * Кликнуть по содержимому веб элемента
+     * @param webElement Веб элемент {@link WebElement}
+     * @return Объект Список действий {@link Actions}
      */
     public Actions clickContext(WebElement webElement) {
         getActions().contextClick(webElement.getWebElement())
@@ -758,8 +759,8 @@ class Actions
     }
 
     /**
-     *
-     * @return
+     * Зажать левую кнопку мыши
+     * @return Объект Список действий {@link Actions}
      */
     public Actions clickAndHold() {
         getActions().clickAndHold()
@@ -767,9 +768,9 @@ class Actions
     }
 
     /**
-     *
-     * @param webElement
-     * @return
+     * Зажать левую кнопку мыши на веб элементе
+     * @param webElement Веб элемент {@link WebElement}
+     * @return Объект Список действий {@link Actions}
      */
     public Actions clickAndHold(WebElement webElement) {
         getActions().clickAndHold(webElement.getWebElement())
@@ -777,8 +778,8 @@ class Actions
     }
 
     /**
-     *
-     * @return
+     * Отпустить левую кнопку мыши
+     * @return Объект Список действий {@link Actions}
      */
     public Actions releaseHold() {
         getActions().release()
@@ -786,9 +787,9 @@ class Actions
     }
 
     /**
-     *
-     * @param webElement
-     * @return
+     * Отпустить левую кнопку мыши на веб элементе
+     * @param webElement Веб элемент {@link WebElement}
+     * @return Объект Список действий {@link Actions}
      */
     public Actions releaseHold(WebElement webElement) {
         getActions().release(webElement.getWebElement())
@@ -796,8 +797,8 @@ class Actions
     }
 
     /**
-     *
-     * @return
+     * Кликнуть левой кнопкой мыши два раза
+     * @return Объект Список действий {@link Actions}
      */
     public Actions doubleClick() {
         getActions().doubleClick()
@@ -805,9 +806,9 @@ class Actions
     }
 
     /**
-     *
-     * @param webElement
-     * @return
+     * Кликнуть левой кнопкой мыши два раза на веб элемент
+     * @param webElement Веб элемент {@link WebElement}
+     * @return Объект Список действий {@link Actions}
      */
     public Actions doubleClick(WebElement webElement) {
         getActions().doubleClick(webElement.getWebElement())
@@ -815,9 +816,9 @@ class Actions
     }
 
     /**
-     *
-     * @param key
-     * @return
+     * Нажать клавишу и удерживать её
+     * @param key Код клавиши
+     * @return Объект Список действий {@link Actions}
      */
     public Actions keyDown(CharSequence key) {
         getActions().keyDown((org.openqa.selenium.Keys) key)
@@ -825,10 +826,10 @@ class Actions
     }
 
     /**
-     *
-     * @param webElement
-     * @param key
-     * @return
+     * Нажать клавишу на веб элементе и удерживать её
+     * @param webElement Веб элемент {@link WebElement}
+     * @param key Код клавиши
+     * @return Объект Список действий {@link Actions}
      */
     public Actions keyDown(WebElement webElement, CharSequence key) {
         getActions()
@@ -837,9 +838,9 @@ class Actions
     }
 
     /**
-     *
-     * @param key
-     * @return
+     * Отпустить нажатую клавишу
+     * @param key Код клавиши
+     * @return Объект Список действий {@link Actions}
      */
     public Actions keyUp(CharSequence key) {
         getActions().keyUp((org.openqa.selenium.Keys) key)
@@ -847,10 +848,10 @@ class Actions
     }
 
     /**
-     *
-     * @param webElement
-     * @param key
-     * @return
+     * Отпустить нажатую клавишу на веб элементе
+     * @param webElement Веб элемент {@link WebElement}
+     * @param key Код клавиши
+     * @return Объект Список действий {@link Actions}
      */
     public Actions keyUp(WebElement webElement, CharSequence key) {
         getActions()
@@ -859,9 +860,9 @@ class Actions
     }
 
     /**
-     *
-     * @param keys
-     * @return
+     * Отправить нажатие клавиш
+     * @param keys Список клавиш
+     * @return Объект Список действий {@link Actions}
      */
     public Actions sendKeys(CharSequence ...keys) {
         getActions().sendKeys(keys)
@@ -869,9 +870,10 @@ class Actions
     }
 
     /**
-     *
-     * @param keys
-     * @return
+     * Отправить нажатие клавиш веб элементу
+     * @param element Веб элемент {@link WebElement}
+     * @param keys Список кодов клавиш
+     * @return Объект Список действий {@link Actions}
      */
     public Actions sendKeys(WebElement webElement, CharSequence ...keys) {
         getActions().sendKeys(webElement.getWebElement(), keys)
@@ -879,10 +881,10 @@ class Actions
     }
 
     /**
-     *
-     * @param xOffset
-     * @param yOffset
-     * @return
+     * Сместить курсор мыши на заданные отспупы
+     * @param xOffset Смещение по X
+     * @param yOffset Смещение по Y
+     * @return Объект Список действий {@link Actions}
      */
     public Actions mouseMove(int xOffset, int yOffset) {
         getActions().moveByOffset(xOffset, yOffset)
@@ -890,9 +892,9 @@ class Actions
     }
 
     /**
-     *
-     * @param element
-     * @return
+     * Переместить курсор мыши на веб элемент
+     * @param element Веб элемент {@link WebElement}
+     * @return Объект Список действий {@link Actions}
      */
     public Actions mouseMove(WebElement element) {
         getActions().moveToElement(element.getWebElement())
@@ -900,22 +902,11 @@ class Actions
     }
 
     /**
-     *
-     * @param element
-     * @param xOffset
-     * @param yOffset
-     * @return
-     */
-    public Actions mouseMove(WebElement element, int xOffset, int yOffset) {
-        getActions().moveToElement(element.getWebElement(), xOffset, yOffset)
-        return this
-    }
-
-    /**
-     *
-     * @param source
-     * @param target
-     * @return
+     * Перенести один веб элемент на другой
+     * @param source Веб элемент который будет перетаскиваться {@link WebElement}
+     * @param target Веб элемент на который будет перетаскиваться веб
+     *                элемент {@link WebElement}
+     * @return Объект Список действий {@link Actions}
      */
     public Actions dragAndDrop(WebElement source, WebElement target) {
         getActions().dragAndDrop(
@@ -925,15 +916,15 @@ class Actions
     }
 
     /**
-     *
-     * @param webElement
-     * @param xOffset
-     * @param yOffset
-     * @return
+     * Перенести один веб элемент на заданное расстояние
+     * @param webElement Веб элемент {@link WebElement}
+     * @param xOffset Смещение по X
+     * @param yOffset Смещение по Y
+     * @return Объект список действий {@link Actions}
      */
     public Actions dragAndDrop(WebElement webElement, int xOffset, int yOffset) {
         getActions().dragAndDropBy(
-                source.getWebElement(),
+                webElement.getWebElement(),
                 xOffset,
                 yOffset
         )
@@ -941,8 +932,7 @@ class Actions
     }
 
     /**
-     *
-     * @param driver
+     * Выполнить действия
      */
     public void perform() {
         getActions().perform()
@@ -972,64 +962,20 @@ driver.setY(0)
 driver.setWidth(1024)
 driver.setHeight(768)
 
-driver.open("http://madagascartc.ru")
-def element = driver.findElement("#section-first")
-def elements = driver.findElements("p")
-
-println element
-println elements
-
-println "-------------------------"
-println element.getX()
-println element.getY()
-println element.getWidth()
-println element.getHeight()
-println element.isDisplayed()
-println element.isEnabled()
-println element.isSelected()
-
-for (def e in elements) {
-    println "-------------------------"
-    println e.getX()
-    println e.getY()
-    println e.getWidth()
-    println e.getHeight()
-    println e.isDisplayed()
-    println e.isEnabled()
-    println e.isSelected()
-}
-
-def cookies = driver.getCookies()
-for (def c in cookies) {
-    println "-------------------------"
-    println c.getDomain()
-    println c.getPath()
-    println c.getName()
-    println c.getValue()
-    if (null != c.getExpiry()) {
-        print "  "
-        println c.getExpiry().getYear()
-        print "  "
-        println c.getExpiry().getMonth()
-        print "  "
-        println c.getExpiry().getDay()
-        print "  "
-        println c.getExpiry().getHours()
-        print "  "
-        println c.getExpiry().getMinutes()
-        print "  "
-        println c.getExpiry().getSeconds()
-    }
-}
-
-def elementShops = driver.findElement("body > div.header > div.menu > div.container > div > div:nth-child(1) > div > ul > li:nth-child(1) > a")
-def actions = new Actions(driver)
-actions
-        .mouseMove(elementShops)
-        .click()
+driver.open("http://www.edimdoma.ru/")
+def elementSunday = driver.findElement("body > div.l-left > div > div.l-outer > div.l-content.g-cleared > div.l-content__lastcolumn > div.b-calendar > div > table > tbody > tr:nth-child(1) > td:nth-child(7) > div > a.b-calendar_cell_day")
+(new Actions(driver))
+        .mouseMove(elementSunday)
         .perform()
 
-sleep(5000)
+sleep(1000)
+
+def elementUp = driver.findElement("body > div.l-left > div > div.l-outer > div.l-content.g-cleared > div.l-content__lastcolumn > div.b-calendar > div > table > tbody > tr:nth-child(1) > td:nth-child(7) > div > a.b-calendar_cell_info.g-cleared > div.b-calendar_cell_info_box > div")
+println elementUp.getX()
+println elementUp.getWidth()
+
+
+
 
 driver.quit()
 
