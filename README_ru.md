@@ -58,10 +58,9 @@ class Date
     void setSeconds(int seconds)
 ```
 
-### Пример работы с классом Date
+#### Пример работы с классом Date
 
-#### Получаем дату "протухания" Cookie
-
+Получаем дату "протухания" Cookie
 ```java
 // получаем дату у Cookie
 def date = cookie.getExpiry()
@@ -78,8 +77,7 @@ if (date != null) {
 }
 ```
 
-#### Меняем дату у Cookie
-
+Меняем дату у Cookie
 ```java
 // создаём объект
 def newDate = new Date()
@@ -148,10 +146,9 @@ class Cookie
     void setExpiry(Date expiry)
 ```
 
-### Пример работы с классом Cookie
+#### Пример работы с классом Cookie
 
-#### Получение списка Cookie и их распечатка(неполная)
-
+Получение списка Cookie и их распечатка(неполная)
 ```java
 // получаем список Cookie
 def cookies = webDriver.getCookies()
@@ -167,8 +164,7 @@ for (def i = 0; i < cookies.length; ++i) {
 }
 ```
 
-#### Установка Cookie сессии для "КиноПоиск"
-
+Установка Cookie сессии для "КиноПоиск"
 ```java
 // создаём Cookie
 def cookieKinopoisk = new Cookie()
@@ -184,8 +180,7 @@ cookieKinopoisk.setValue("1122aabbccddffee")
 webDriver.addCoockie(cookieKinopoisk)
 ```
 
-#### Удаляем Cookie от google
-
+Удаляем Cookie от google
 ```java
 // получаем список Cookie
 def allCookies = webDriver.getCookies()
@@ -240,10 +235,9 @@ class WebElement
     boolean isSelected()
 ```
 
-### Пример работы с классом Cookie
+#### Пример работы с классом WebElement
 
-#### Получение веб элемента
-
+Получение веб элемента
 ```java
 // ищем нащ веб элемент по CSS-селектору через WebDriver
 def elementInput = webDriver.findElement("#inp")
@@ -257,8 +251,7 @@ if (elementInput != null) {
 }
 ```
 
-#### Получение списка веб элементов
-
+Получение списка веб элементов
 ```java
 // получаем список картинок по CSS-селектору
 // если не найдётся ни одна картинка, то размер массива будет 0 
@@ -373,7 +366,7 @@ class WebDriver
     void executeJavaScript(String script, Object ...arguments)
 ```
 
-### Пример работы с классом WebDriver
+#### Пример работы с классом WebDriver
 
 ```java
 ```
@@ -495,7 +488,7 @@ class Actions
     void perform()
 ```
 
-### Пример работы с классом Actions
+#### Пример работы с классом Actions
 
 ```java
 ```
