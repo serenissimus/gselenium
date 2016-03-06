@@ -4,19 +4,15 @@
 
 @Grab('commons-io:commons-io:2.4')
 @Grab('commons-lang:commons-lang:2.6')
-@Grab('org.seleniumhq.selenium:selenium-java:2.52.0')
-@Grab('org.seleniumhq.selenium:selenium-chrome-driver:2.52.0')
-@Grab('org.seleniumhq.selenium:selenium-firefox-driver:2.52.0')
-@Grab('org.seleniumhq.selenium:selenium-htmlunit-driver:2.52.0')
-@Grab('org.seleniumhq.selenium:selenium-ie-driver:2.52.0')
+@Grab('org.seleniumhq.selenium:selenium-java:2.+')
+@Grab('org.seleniumhq.selenium:selenium-chrome-driver:2.+')
+@Grab('org.seleniumhq.selenium:selenium-firefox-driver:2.+')
+@Grab('org.seleniumhq.selenium:selenium-htmlunit-driver:2.+')
+@Grab('org.seleniumhq.selenium:selenium-ie-driver:2.+')
 
 import org.apache.commons.io.FileUtils
 import org.apache.commons.lang.SystemUtils
 import org.openqa.selenium.WebDriver
-
-import javax.imageio.ImageIO
-import java.awt.Color
-import java.awt.image.BufferedImage
 import org.openqa.selenium.By
 import org.openqa.selenium.Keys
 import org.openqa.selenium.Dimension
@@ -26,12 +22,6 @@ import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.ie.InternetExplorerDriver
-
-/* ------------------------------------------------------------------------------ */
-
-// http://chromedriver.storage.googleapis.com/index.html?path=2.21/
-// TODO: add multiplatform support
-System.setProperty("webdriver.chrome.driver", "drivers/linux32/chromedriver")
 
 /* ------------------------------------------------------------------------------ */
 
@@ -456,7 +446,7 @@ class WebElement {
  */
 class WebDriver {
 
-    // TODO: add support for Ie, Opera(maybe...), Android(maybe...), Safari
+    // TODO: add support for Ie, Android(maybe...), Safari
     /**
      * Конструктор
      * @param type Тип браузера("Chrome","Firefox","Htmlunit","Ie")
@@ -464,15 +454,7 @@ class WebDriver {
     public WebDriver(String type) {
         if (null != type) {
             type = type.toLowerCase()
-        }
-        if ("chrome".equals(type)) {
-            setWebDriver(new org.openqa.selenium.chrome.ChromeDriver())
-        } else if ("firefox".equals(type)) {
-            setWebDriver(new org.openqa.selenium.firefox.FirefoxDriver())
-        } else if ("htmlunit".equals(type)) {
-            setWebDriver(new org.openqa.selenium.htmlunit.HtmlUnitDriver())
-        } else if ("ie".equals(type)) {
-            setWebDriver(new org.openqa.selenium.ie.InternetExplorerDriver())
+            setWebDriver(type)
         }
         assert (null != getWebDriver())
     }
@@ -691,7 +673,7 @@ class WebDriver {
 
     private org.openqa.selenium.WebDriver _webDriver
 
-    WebDriver(org.openqa.selenium.WebDriver webDriver) {
+    private WebDriver(org.openqa.selenium.WebDriver webDriver) {
         setWebDriver(webDriver)
     }
 
@@ -701,6 +683,63 @@ class WebDriver {
 
     private void setWebDriver(org.openqa.selenium.WebDriver webDriver) {
         _webDriver = webDriver
+    }
+
+    // TODO: rewrite this ugly code
+    private void setWebDriver(String type) {
+        prepareDriver(type)
+    }
+
+    private boolean prepareDriver(String type) {
+        if ("chrome".equals(type)) {
+            if (prepareChromeDriver()) {
+                setWebDriver(new org.openqa.selenium.chrome.ChromeDriver())
+            }
+        } else if ("firefox".equals(type)) {
+            if (prepareFirefoxDriver()) {
+                setWebDriver(new org.openqa.selenium.firefox.FirefoxDriver())
+            }
+        } else if ("htmlunit".equals(type)) {
+            if (prepareHtmlUnitDriver()) {
+                setWebDriver(new org.openqa.selenium.htmlunit.HtmlUnitDriver())
+            }
+        } else if ("ie".equals(type)) {
+            if (prepareIeDriver()) {
+                setWebDriver(new org.openqa.selenium.ie.InternetExplorerDriver())
+            }
+        }
+    }
+
+    private boolean prepareChromeDriver() {
+        // http://chromedriver.storage.googleapis.com/2.21/chromedriver_linux32.zip
+        if (SystemUtils.IS_OS_LINUX) {
+            if (System.getProperty("sun.arch.data.model") == "32") {
+                // println "32 bits!"
+                // println SystemUtils.OS_ARCH
+                System.setProperty("webdriver.chrome.driver", "drivers/linux32/chromedriver")
+            } else if (System.getProperty("sun.arch.data.model") == "64") {
+                System.setProperty("webdriver.chrome.driver", "drivers/linux64/chromedriver")
+            }
+        } else if (SystemUtils.IS_OS_WINDOWS) {
+            if (System.getProperty("sun.arch.data.model") == "32") {
+                System.setProperty("webdriver.chrome.driver", "drivers/windows32/chromedriver.exe")
+            } else if (System.getProperty("sun.arch.data.model") == "64") {
+                System.setProperty("webdriver.chrome.driver", "drivers/windows64/chromedriver.exe")
+            }
+        }
+        return false
+    }
+
+    private boolean prepareFirefoxDriver() {
+        return true
+    }
+
+    private boolean prepareHtmlUnitDriver() {
+        return true
+    }
+
+    private boolean prepareIeDriver() {
+        return false
     }
 }
 
@@ -941,11 +980,11 @@ class Actions {
 
     private org.openqa.selenium.interactions.Actions _actions;
 
-    Actions(org.openqa.selenium.interactions.Actions actions) {
+    private Actions(org.openqa.selenium.interactions.Actions actions) {
         setActions(actions)
     }
 
-    public org.openqa.selenium.interactions.Actions getActions() {
+    private org.openqa.selenium.interactions.Actions getActions() {
         return _actions
     }
 
