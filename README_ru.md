@@ -359,11 +359,12 @@ class WebDriver
     // Удалить все Cookie
     void deleteAllCookies()
     
-    // Выполнить JavaScript. Можно дополнительно указать аргументы для скрипта.
-    // Параметры в JavaScript можно получить через "arguments[<индекс аргумента>]"
+    // Выполнить JavaScript. Параметры для скрипта передаются вторым параметром.
+    // Параметры внутри JavaScript можно получить через
+    // "arguments[<индекс аргумента>]"
     //   параметр script: Строка
-    //   параметр arguments: Аргументы
-    void executeJavaScript(String script, Object ...arguments)
+    //   параметр arguments: Список объектов
+    void executeJavaScript(String script, List<Object> arguments)
 ```
 
 #### Пример работы с классом WebDriver
