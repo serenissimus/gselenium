@@ -68,6 +68,11 @@ class Keys {
      * Клавиша Tab
      */
     public static CharSequence TAB = org.openqa.selenium.Keys.TAB
+
+    /**
+    * Клавиша левый Shift
+    */
+    public static CharSequence LEFT_SHIFT = org.openqa.selenium.Keys.LEFT_SHIFT
 }
 
 
@@ -711,20 +716,25 @@ class WebDriver {
     }
 
     private boolean prepareChromeDriver() {
+        // http://www.mkyong.com/java/how-to-decompress-files-from-a-zip-file/
         // http://chromedriver.storage.googleapis.com/2.21/chromedriver_linux32.zip
         if (SystemUtils.IS_OS_LINUX) {
             if (System.getProperty("sun.arch.data.model") == "32") {
                 // println "32 bits!"
                 // println SystemUtils.OS_ARCH
                 System.setProperty("webdriver.chrome.driver", "drivers/linux32/chromedriver")
+                return true
             } else if (System.getProperty("sun.arch.data.model") == "64") {
                 System.setProperty("webdriver.chrome.driver", "drivers/linux64/chromedriver")
+                return true
             }
         } else if (SystemUtils.IS_OS_WINDOWS) {
             if (System.getProperty("sun.arch.data.model") == "32") {
                 System.setProperty("webdriver.chrome.driver", "drivers/windows32/chromedriver.exe")
+                return true
             } else if (System.getProperty("sun.arch.data.model") == "64") {
                 System.setProperty("webdriver.chrome.driver", "drivers/windows64/chromedriver.exe")
+                return true
             }
         }
         return false
@@ -739,6 +749,15 @@ class WebDriver {
     }
 
     private boolean prepareIeDriver() {
+        if (SystemUtils.IS_OS_WINDOWS) {
+            if (System.getProperty("sun.arch.data.model") == "32") {
+                System.setProperty("webdriver.ie.driver", "drivers/windows32/iedriverserver.exe")
+                return true
+            } else if (System.getProperty("sun.arch.data.model") == "64") {
+                System.setProperty("webdriver.chrome.driver", "drivers/windows64/iedriverserver.exe")
+                return true
+            }
+        }
         return false
     }
 }
@@ -748,6 +767,12 @@ class WebDriver {
  * Класс действия пользователя
  */
 class Actions {
+
+    /**
+    */
+    public static Actions _(WebDriver webDriver) {
+        return new Actions(webDriver)
+    }
 
     /**
      * Конструктор
@@ -855,8 +880,8 @@ class Actions {
     }
 
     /**
-     * Нажать клавишу и удерживать её
-     * @param key Код клавиши
+     * Нажать клавишу-модификатора и удерживать её
+     * @param key Код клавиши-модификатора
      * @return Объект Список действий {@link Actions}
      */
     public Actions keyDown(CharSequence key) {
@@ -865,9 +890,9 @@ class Actions {
     }
 
     /**
-     * Нажать клавишу на веб элементе и удерживать её
+     * Нажать клавишу-модификатор на веб элементе и удерживать её
      * @param webElement Веб элемент {@link WebElement}
-     * @param key Код клавиши
+     * @param key Код клавиши-модификатора
      * @return Объект Список действий {@link Actions}
      */
     public Actions keyDown(WebElement webElement, CharSequence key) {
@@ -877,8 +902,8 @@ class Actions {
     }
 
     /**
-     * Отпустить нажатую клавишу
-     * @param key Код клавиши
+     * Отпустить нажатую клавишу-модификатор
+     * @param key Код клавиши-модификатора
      * @return Объект Список действий {@link Actions}
      */
     public Actions keyUp(CharSequence key) {
@@ -887,9 +912,9 @@ class Actions {
     }
 
     /**
-     * Отпустить нажатую клавишу на веб элементе
+     * Отпустить нажатую клавишу-модификатор на веб элементе
      * @param webElement Веб элемент {@link WebElement}
-     * @param key Код клавиши
+     * @param key Код клавиши-модификатора
      * @return Объект Список действий {@link Actions}
      */
     public Actions keyUp(WebElement webElement, CharSequence key) {
@@ -1001,20 +1026,7 @@ driver.setY(0)
 driver.setWidth(1024)
 driver.setHeight(768)
 
-driver.open("http://www.edimdoma.ru/")
-def elementSunday = driver.findElement("body > div.l-left > div > div.l-outer > div.l-content.g-cleared > div.l-content__lastcolumn > div.b-calendar > div > table > tbody > tr:nth-child(1) > td:nth-child(7) > div > a.b-calendar_cell_day")
-(new Actions(driver))
-        .mouseMove(elementSunday)
-        .perform()
-
-sleep(1000)
-
-def elementUp = driver.findElement("body > div.l-left > div > div.l-outer > div.l-content.g-cleared > div.l-content__lastcolumn > div.b-calendar > div > table > tbody > tr:nth-child(1) > td:nth-child(7) > div > a.b-calendar_cell_info.g-cleared > div.b-calendar_cell_info_box > div")
-println elementUp.getX()
-println elementUp.getWidth()
-
-
-
+driver.open("http://google.ru")
 
 driver.quit()
 
