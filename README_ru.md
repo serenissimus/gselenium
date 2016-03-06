@@ -1,4 +1,3 @@
-
 ## Класс Date
 [тег]: Date
 ```java
@@ -57,14 +56,14 @@ class Date
     // Установить секунды
     //   параметр seconds: Целое число от 0 до 59 включительно
     void setSeconds(int seconds)
+```
 
+### Пример работы с классом Date
 
-/* Пример работы с классом Date
+#### Получаем дату "протухания" Cookie
 
-//// --------------------------------------------------
-//// получаем дату "протухания" Cookie
-
-// получаем
+```java
+// получаем дату у Cookie
 def date = cookie.getExpiry()
 
 // !!! обязательно надо проверить что дата установлена
@@ -77,11 +76,11 @@ if (date != null) {
     println "Минуты протухания = " + date.getMinutes()
     println "Секунды протухания = " + date.getSeconds()
 }
+```
 
+#### Меняем дату у Cookie
 
-//// --------------------------------------------------
-//// меняем дату у Cookie
-
+```java
 // создаём объект
 def newDate = new Date()
 
@@ -95,8 +94,6 @@ newDate.setSeconds(56)
 
 // устанавливаем дату на Cookie
 cookie.setExpiry(newDate)
-
-*/
 ```
 
 
@@ -149,13 +146,13 @@ class Cookie
     // Установить дату "протухания" cookie
     //   параметр expiry: Объект класса Date
     void setExpiry(Date expiry)
+```
 
+### Пример работы с классом Cookie
 
-/* Пример работы с классом Cookie
+#### Получение списка Cookie и их распечатка(неполная)
 
-//// --------------------------------------------------
-//// получение списка Cookie и их распечатка(неполная)
-
+```java
 // получаем список Cookie
 def cookies = webDriver.getCookies()
 
@@ -168,11 +165,11 @@ for (def i = 0; i < cookies.length; ++i) {
     // печатаем значение Cookie
     println "Значение = " + cookies[i].getValue()
 }
+```
 
+#### Установка Cookie сессии для "КиноПоиск"
 
-//// --------------------------------------------------
-//// установка Cookie сессии для "КиноПоиск"
-
+```java
 // создаём Cookie
 def cookieKinopoisk = new Cookie()
 
@@ -185,11 +182,11 @@ cookieKinopoisk.setValue("1122aabbccddffee")
 
 // устанавливаем Cookie
 webDriver.addCoockie(cookieKinopoisk)
+```
 
+#### Удаляем Cookie от google
 
-//// --------------------------------------------------
-//// удаляем Cookie от google
-
+```java
 // получаем список Cookie
 def allCookies = webDriver.getCookies()
 
@@ -203,8 +200,6 @@ for (def j = 0; j < allCookies.length; ++j) {
         webDriver.deleteCookie(allCookies[j])
     }
 }
-
-*/
 ```
 
 
@@ -243,13 +238,13 @@ class WebElement
     // Выбран ли веб элемент?
     //   возвращает: Булевское значение
     boolean isSelected()
+```
 
+### Пример работы с классом Cookie
 
-/* Пример работы с классом Cookie
+#### Получение веб элемента
 
-//// --------------------------------------------------
-//// получение веб элемента
-
+```java
 // ищем нащ веб элемент по CSS-селектору через WebDriver
 def elementInput = webDriver.findElement("#inp")
 
@@ -260,11 +255,11 @@ if (elementInput != null) {
     println "Включен ли = " + elementInput.isEnabled()
     println "Выбран ли = " + elementInput.isSelected()
 }
+```
 
+#### Получение списка веб элементов
 
-//// --------------------------------------------------
-//// получение списка веб элементов
-
+```java
 // получаем список картинок по CSS-селектору
 // если не найдётся ни одна картинка, то размер массива будет 0 
 def elementsImg = webDriver.findElements("img")
@@ -278,8 +273,6 @@ for (def i = 0; i < elementsImg.length; ++i) {
     println "Width = " + elementsImg[i].getWidth()
     println "Height = " + elementsImg[i].getHeight() 
 }
-
-*/
 ```
 
 
@@ -378,11 +371,11 @@ class WebDriver
     //   параметр script: Строка
     //   параметр arguments: Аргументы
     void executeJavaScript(String script, Object ...arguments)
+```
 
+### Пример работы с классом WebDriver
 
-/* Пример работы с классом WebDriver
-
-*/
+```java
 ```
 
 
@@ -442,37 +435,37 @@ class Actions
     Actions doubleClick(WebElement webElement)
 
     // Нажать клавишу-модификатор и удерживать её
-    //   параметр key:
+    //   параметр key: Клавиша-модификатор
     //   возвращает: Объект класса Actions
-    Actions keyDown(CharSequence key)
+    Actions keyDown(Modificators key)
 
     // Нажать клавишу-модификатор на заданном веб элементе и удерживать её
     //   параметр webElement: Объект класса WebElement
-    //   параметр key:
+    //   параметр key: Клавиша-модификатор
     //   возвращает: Объект класса Actions
-    Actions keyDown(WebElement webElement, CharSequence key)
+    Actions keyDown(WebElement webElement, Modificators key)
 
     // Отпустить нажатую клавишу-модификатор
-    //   параметр key:
+    //   параметр key: Клавиша-модификатор
     //   возвращает: Объект класса Actions
-    Actions keyUp(CharSequence key)
+    Actions keyUp(Modificators key)
     
     // Отпустить нажатую клавишу-модификатор на заданном веб элементе
     //   параметр webElement: Объект класса WebElement
-    //   параметр key:
+    //   параметр key: Клавиша-модификатор
     //   возвращает: Объект класса Actions
-    Actions keyUp(WebElement webElement, CharSequence key)
+    Actions keyUp(WebElement webElement, Modificators key)
 
     // Отправить нажатие клавиш
     //   параметр keys: Строка
     //   возвращает: Объект класса Actions
-    Actions sendKeys(CharSequence ...keys)
+    Actions sendKeys(String keys)
     
     // Отправить нажатие клавиш заданному веб элементу
     //   параметр webElement: Объект класса WebElement
     //   параметр keys: Строка
     //   возвращает: Объект класса Actions
-    Actions sendKeys(WebElement webElement, CharSequence ...keys)
+    Actions sendKeys(WebElement webElement, String keys)
 
     // Сместить курсор мыши на заданные отступы
     //   параметр xOffset: Целое число
@@ -500,9 +493,9 @@ class Actions
 
     // Выполнить цепочку действий
     void perform()
+```
 
+### Пример работы с классом Actions
 
-/* Пример работы с классом Actions
-
-*/
+```java
 ```

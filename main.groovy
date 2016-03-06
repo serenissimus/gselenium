@@ -38,41 +38,46 @@ import org.openqa.selenium.ie.InternetExplorerDriver
 */
 
 
-// TODO: test for sending keys into web elements
 /**
- *
+ * Непечатные клавиши
  */
-class Keys {
+enum Keys implements CharSequence {
 
     /**
      * Клавиша Enter
      */
-    public static CharSequence ENTER = org.openqa.selenium.Keys.ENTER
+    ENTER  (org.openqa.selenium.Keys.ENTER),
 
     /**
      * Клавиша Escape
      */
-    public static CharSequence ESCAPE = org.openqa.selenium.Keys.ESCAPE
+    ESCAPE  (org.openqa.selenium.Keys.ESCAPE),
 
     /**
      * Клавиша Enter
      */
-    public static CharSequence RETURN = org.openqa.selenium.Keys.RETURN
+    RETURN  (org.openqa.selenium.Keys.RETURN),
 
     /**
      * Клавиша Пробел
      */
-    public static CharSequence SPACE = org.openqa.selenium.Keys.SPACE
+    SPACE  (org.openqa.selenium.Keys.SPACE),
 
     /**
      * Клавиша Tab
      */
-    public static CharSequence TAB = org.openqa.selenium.Keys.TAB
+    TAB  (org.openqa.selenium.Keys.TAB)
+}
 
+
+/**
+ * Клавиши-модификаторы
+ */
+enum Modificators implements java.lang.CharSequence {
     /**
-    * Клавиша левый Shift
-    */
-    public static CharSequence LEFT_SHIFT = org.openqa.selenium.Keys.LEFT_SHIFT
+     * Клавиша левый Shift
+     */
+    LEFT_SHIFT  (org.openqa.selenium.Keys.LEFT_SHIFT)
 }
 
 
@@ -188,11 +193,11 @@ class Date {
 
     private java.util.Date _date;
 
-    Date(java.util.Date date) {
+    public Date(java.util.Date date) {
         setDate(date)
     }
 
-    java.util.Date getDate() {
+    public java.util.Date getDate() {
         return _date;
     }
 
@@ -348,11 +353,11 @@ class Cookie {
 
     private org.openqa.selenium.Cookie _cookie;
 
-    Cookie(org.openqa.selenium.Cookie cookie) {
+    public Cookie(org.openqa.selenium.Cookie cookie) {
         setCookie(cookie)
     }
 
-    org.openqa.selenium.Cookie getCookie() {
+    public org.openqa.selenium.Cookie getCookie() {
         return _cookie
     }
 
@@ -432,11 +437,11 @@ class WebElement {
 
     private org.openqa.selenium.WebElement _webElement;
 
-    WebElement(org.openqa.selenium.WebElement webElement) {
+    public WebElement(org.openqa.selenium.WebElement webElement) {
         setWebElement(webElement)
     }
 
-    org.openqa.selenium.WebElement getWebElement() {
+    public org.openqa.selenium.WebElement getWebElement() {
         return _webElement
     }
 
@@ -504,6 +509,7 @@ class WebDriver {
                 ((org.openqa.selenium.TakesScreenshot) getWebDriver())
                         .getScreenshotAs(OutputType.FILE)
         FileUtils.copyFile(scrFile, new File(screenshotSavePath))
+        // TODO: Maybe need close srcFiles ?
     }
 
     /**
@@ -667,12 +673,11 @@ class WebDriver {
     /**
      * Выполнить JavaScript строку
      * @param script Строка JavaScript
-     * @param args Необязательные аргументы в JavaScript(могут быть получены в
-     *              JavaScript через arguments[<номер аргумента>]
+     * @param arguments Список аргументов
      */
-    public void executeJavaScript(String script, Object ...args) {
+    public void executeJavaScript(String script, List<Object> arguments) {
         ((org.openqa.selenium.JavascriptExecutor) getWebDriver())
-                .executeScript(script, args)
+                .executeScript(script, arguments.toArray())
     }
 
 
@@ -682,7 +687,7 @@ class WebDriver {
         setWebDriver(webDriver)
     }
 
-    org.openqa.selenium.WebDriver getWebDriver() {
+    public org.openqa.selenium.WebDriver getWebDriver() {
         return _webDriver
     }
 
@@ -769,7 +774,9 @@ class WebDriver {
 class Actions {
 
     /**
-    */
+     * Статичный методы, для быстрого создания действий
+     * @param webDriver Веб драйвер {@link WebDriver}
+     */
     public static Actions _(WebDriver webDriver) {
         return new Actions(webDriver)
     }
@@ -884,7 +891,7 @@ class Actions {
      * @param key Код клавиши-модификатора
      * @return Объект Список действий {@link Actions}
      */
-    public Actions keyDown(CharSequence key) {
+    public Actions keyDown(Modificators key) {
         getActions().keyDown((org.openqa.selenium.Keys) key)
         return this
     }
@@ -895,7 +902,7 @@ class Actions {
      * @param key Код клавиши-модификатора
      * @return Объект Список действий {@link Actions}
      */
-    public Actions keyDown(WebElement webElement, CharSequence key) {
+    public Actions keyDown(WebElement webElement, Modificators key) {
         getActions()
                 .keyDown(webElement.getWebElement(), (org.openqa.selenium.Keys) key)
         return this
@@ -906,7 +913,7 @@ class Actions {
      * @param key Код клавиши-модификатора
      * @return Объект Список действий {@link Actions}
      */
-    public Actions keyUp(CharSequence key) {
+    public Actions keyUp(Modificators key) {
         getActions().keyUp((org.openqa.selenium.Keys) key)
         return this
     }
@@ -917,7 +924,7 @@ class Actions {
      * @param key Код клавиши-модификатора
      * @return Объект Список действий {@link Actions}
      */
-    public Actions keyUp(WebElement webElement, CharSequence key) {
+    public Actions keyUp(WebElement webElement, Modificators key) {
         getActions()
                 .keyUp(webElement.getWebElement(), (org.openqa.selenium.Keys) key)
         return this
@@ -928,7 +935,7 @@ class Actions {
      * @param keys Список клавиш
      * @return Объект Список действий {@link Actions}
      */
-    public Actions sendKeys(CharSequence ...keys) {
+    public Actions sendKeys(String keys) {
         getActions().sendKeys(keys)
         return this
     }
@@ -939,7 +946,7 @@ class Actions {
      * @param keys Список кодов клавиш
      * @return Объект Список действий {@link Actions}
      */
-    public Actions sendKeys(WebElement webElement, CharSequence ...keys) {
+    public Actions sendKeys(WebElement webElement, String keys) {
         getActions().sendKeys(webElement.getWebElement(), keys)
         return this
     }
