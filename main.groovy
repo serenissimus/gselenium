@@ -1,7 +1,5 @@
-#!/usr/bin/env groovy
-
-/* ------------------------------------------------------------------------------ */
-
+#!/usr/bin/env groovy @Grab('commons-io:commons-io:2.4')
+import groovy.json.internal.CharSequenceValue
 @Grab('commons-io:commons-io:2.4')
 @Grab('commons-lang:commons-lang:2.6')
 @Grab('org.seleniumhq.selenium:selenium-java:2.+')
@@ -10,74 +8,44 @@
 @Grab('org.seleniumhq.selenium:selenium-htmlunit-driver:2.+')
 @Grab('org.seleniumhq.selenium:selenium-ie-driver:2.+')
 
-import org.apache.commons.io.FileUtils
-import org.apache.commons.lang.SystemUtils
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.By
-import org.openqa.selenium.Keys
-import org.openqa.selenium.Dimension
-import org.openqa.selenium.Point
-import static org.openqa.selenium.OutputType.FILE
-import org.openqa.selenium.chrome.ChromeDriver
-import org.openqa.selenium.firefox.FirefoxDriver
-import org.openqa.selenium.htmlunit.HtmlUnitDriver
-import org.openqa.selenium.ie.InternetExplorerDriver
 
 /* ------------------------------------------------------------------------------ */
+import org.apache.commons.io.FileUtils
+import org.apache.commons.lang.SystemUtils
+import org.openqa.selenium.*
+/* ------------------------------------------------------------------------------ */
 
-/*
- groovydoc \
-    -d docs \
-    -public \
-    -classpath ${HOME}/.sdkman/candidates/groovy/current/lib \
-    -windowtitle "Groovy Selenium Wrapper" \
-    -header "Groovy Selenium Wrapper" \
-    -footer "" \
-    -doctitle "" \
-    *.groovy *.java
-*/
 
 
 /**
  * Непечатные клавиши
  */
-enum Keys implements CharSequence {
+class Keys {
 
     /**
      * Клавиша Enter
      */
-    ENTER  (org.openqa.selenium.Keys.ENTER),
+    public static final CharSequence ENTER = org.openqa.selenium.Keys.ENTER
 
     /**
      * Клавиша Escape
      */
-    ESCAPE  (org.openqa.selenium.Keys.ESCAPE),
+    public static final CharSequence ESCAPE = org.openqa.selenium.Keys.ESCAPE
 
     /**
      * Клавиша Enter
      */
-    RETURN  (org.openqa.selenium.Keys.RETURN),
+    public static final CharSequence RETURN = org.openqa.selenium.Keys.RETURN
 
     /**
      * Клавиша Пробел
      */
-    SPACE  (org.openqa.selenium.Keys.SPACE),
+    public static final CharSequence SPACE = org.openqa.selenium.Keys.SPACE
 
     /**
      * Клавиша Tab
      */
-    TAB  (org.openqa.selenium.Keys.TAB)
-}
-
-
-/**
- * Клавиши-модификаторы
- */
-enum Modificators implements java.lang.CharSequence {
-    /**
-     * Клавиша левый Shift
-     */
-    LEFT_SHIFT  (org.openqa.selenium.Keys.LEFT_SHIFT)
+    public static final CharSequence TAB = org.openqa.selenium.Keys.TAB
 }
 
 
@@ -455,17 +423,13 @@ class WebElement {
  * Класс-драйвер для взаимодействия с браузером
  */
 class WebDriver {
-
     // TODO: add support for Ie, Android(maybe...), Safari
     /**
      * Конструктор
      * @param type Тип браузера("Chrome","Firefox","Htmlunit","Ie")
      */
     public WebDriver(String type) {
-        if (null != type) {
-            type = type.toLowerCase()
-            setWebDriver(type)
-        }
+        setWebDriver(type)
         assert (null != getWebDriver())
     }
 
@@ -669,17 +633,6 @@ class WebDriver {
         getWebDriver().manage().deleteAllCookies()
     }
 
-    // TODO: Maybe can override ellipsis by list(see toArray method)
-    /**
-     * Выполнить JavaScript строку
-     * @param script Строка JavaScript
-     * @param arguments Список аргументов
-     */
-    public void executeJavaScript(String script, List<Object> arguments) {
-        ((org.openqa.selenium.JavascriptExecutor) getWebDriver())
-                .executeScript(script, arguments.toArray())
-    }
-
 
     private org.openqa.selenium.WebDriver _webDriver
 
@@ -695,75 +648,44 @@ class WebDriver {
         _webDriver = webDriver
     }
 
-    // TODO: rewrite this ugly code
     private void setWebDriver(String type) {
-        prepareDriver(type)
-    }
-
-    private boolean prepareDriver(String type) {
-        if ("chrome".equals(type)) {
-            if (prepareChromeDriver()) {
-                setWebDriver(new org.openqa.selenium.chrome.ChromeDriver())
-            }
-        } else if ("firefox".equals(type)) {
-            if (prepareFirefoxDriver()) {
-                setWebDriver(new org.openqa.selenium.firefox.FirefoxDriver())
-            }
-        } else if ("htmlunit".equals(type)) {
-            if (prepareHtmlUnitDriver()) {
-                setWebDriver(new org.openqa.selenium.htmlunit.HtmlUnitDriver())
-            }
-        } else if ("ie".equals(type)) {
-            if (prepareIeDriver()) {
-                setWebDriver(new org.openqa.selenium.ie.InternetExplorerDriver())
-            }
-        }
-    }
-
-    private boolean prepareChromeDriver() {
-        // http://www.mkyong.com/java/how-to-decompress-files-from-a-zip-file/
-        // http://chromedriver.storage.googleapis.com/2.21/chromedriver_linux32.zip
         if (SystemUtils.IS_OS_LINUX) {
             if (System.getProperty("sun.arch.data.model") == "32") {
-                // println "32 bits!"
-                // println SystemUtils.OS_ARCH
                 System.setProperty("webdriver.chrome.driver", "drivers/linux32/chromedriver")
-                return true
             } else if (System.getProperty("sun.arch.data.model") == "64") {
                 System.setProperty("webdriver.chrome.driver", "drivers/linux64/chromedriver")
-                return true
             }
         } else if (SystemUtils.IS_OS_WINDOWS) {
             if (System.getProperty("sun.arch.data.model") == "32") {
                 System.setProperty("webdriver.chrome.driver", "drivers/windows32/chromedriver.exe")
-                return true
-            } else if (System.getProperty("sun.arch.data.model") == "64") {
-                System.setProperty("webdriver.chrome.driver", "drivers/windows64/chromedriver.exe")
-                return true
-            }
-        }
-        return false
-    }
-
-    private boolean prepareFirefoxDriver() {
-        return true
-    }
-
-    private boolean prepareHtmlUnitDriver() {
-        return true
-    }
-
-    private boolean prepareIeDriver() {
-        if (SystemUtils.IS_OS_WINDOWS) {
-            if (System.getProperty("sun.arch.data.model") == "32") {
                 System.setProperty("webdriver.ie.driver", "drivers/windows32/iedriverserver.exe")
-                return true
             } else if (System.getProperty("sun.arch.data.model") == "64") {
-                System.setProperty("webdriver.chrome.driver", "drivers/windows64/iedriverserver.exe")
-                return true
+                System.setProperty("webdriver.chrome.driver", "drivers/windows32/chromedriver.exe")
+                System.setProperty("webdriver.ie.driver", "drivers/windows64/iedriverserver.exe")
             }
         }
-        return false
+
+        type = type.toLowerCase()
+        switch (type) {
+            case "chrome":
+                setWebDriver(new org.openqa.selenium.chrome.ChromeDriver())
+                break
+
+            case "firefox":
+                setWebDriver(new org.openqa.selenium.firefox.FirefoxDriver())
+                break
+
+            case "htmlunit":
+                setWebDriver(new org.openqa.selenium.htmlunit.HtmlUnitDriver())
+                break
+
+            case "ie":
+                setWebDriver(new org.openqa.selenium.ie.InternetExplorerDriver())
+                break
+
+            default:
+                break
+        }
     }
 }
 
@@ -772,15 +694,6 @@ class WebDriver {
  * Класс действия пользователя
  */
 class Actions {
-
-    /**
-     * Статичный методы, для быстрого создания действий
-     * @param webDriver Веб драйвер {@link WebDriver}
-     */
-    public static Actions _(WebDriver webDriver) {
-        return new Actions(webDriver)
-    }
-
     /**
      * Конструктор
      * @param webDriver Веб драйвер {@link WebDriver}
@@ -793,213 +706,66 @@ class Actions {
 
     /**
      * Кликнуть левой кнопкой мыши
-     * @return Объект Список действий {@link Actions}
      */
-    public Actions click() {
+    public void click() {
         getActions().click()
-        return this
     }
 
     /**
      * Кликнуть левой кнопкой мыши по веб элементу
      * @param webElement Веб элемент {@link WebElement}
-     * @return Объект Список действий {@link Actions}
      */
-    public Actions click(WebElement webElement) {
+    public void click(WebElement webElement) {
         getActions().click(webElement.getWebElement())
-        return this
-    }
-
-    /**
-     * Кликнуть по содержимому
-     * @return Объект Список действий {@link Actions}
-     */
-    public Actions clickContext() {
-        getActions().contextClick()
-        return this
-    }
-
-    /**
-     * Кликнуть по содержимому веб элемента
-     * @param webElement Веб элемент {@link WebElement}
-     * @return Объект Список действий {@link Actions}
-     */
-    public Actions clickContext(WebElement webElement) {
-        getActions().contextClick(webElement.getWebElement())
-        return this
-    }
-
-    /**
-     * Зажать левую кнопку мыши
-     * @return Объект Список действий {@link Actions}
-     */
-    public Actions clickAndHold() {
-        getActions().clickAndHold()
-        return this
-    }
-
-    /**
-     * Зажать левую кнопку мыши на веб элементе
-     * @param webElement Веб элемент {@link WebElement}
-     * @return Объект Список действий {@link Actions}
-     */
-    public Actions clickAndHold(WebElement webElement) {
-        getActions().clickAndHold(webElement.getWebElement())
-        return this
-    }
-
-    /**
-     * Отпустить левую кнопку мыши
-     * @return Объект Список действий {@link Actions}
-     */
-    public Actions releaseHold() {
-        getActions().release()
-        return this
-    }
-
-    /**
-     * Отпустить левую кнопку мыши на веб элементе
-     * @param webElement Веб элемент {@link WebElement}
-     * @return Объект Список действий {@link Actions}
-     */
-    public Actions releaseHold(WebElement webElement) {
-        getActions().release(webElement.getWebElement())
-        return this
     }
 
     /**
      * Кликнуть левой кнопкой мыши два раза
-     * @return Объект Список действий {@link Actions}
      */
-    public Actions doubleClick() {
+    public void doubleClick() {
         getActions().doubleClick()
-        return this
     }
 
     /**
      * Кликнуть левой кнопкой мыши два раза на веб элемент
      * @param webElement Веб элемент {@link WebElement}
-     * @return Объект Список действий {@link Actions}
      */
-    public Actions doubleClick(WebElement webElement) {
+    public void doubleClick(WebElement webElement) {
         getActions().doubleClick(webElement.getWebElement())
-        return this
-    }
-
-    /**
-     * Нажать клавишу-модификатора и удерживать её
-     * @param key Код клавиши-модификатора
-     * @return Объект Список действий {@link Actions}
-     */
-    public Actions keyDown(Modificators key) {
-        getActions().keyDown((org.openqa.selenium.Keys) key)
-        return this
-    }
-
-    /**
-     * Нажать клавишу-модификатор на веб элементе и удерживать её
-     * @param webElement Веб элемент {@link WebElement}
-     * @param key Код клавиши-модификатора
-     * @return Объект Список действий {@link Actions}
-     */
-    public Actions keyDown(WebElement webElement, Modificators key) {
-        getActions()
-                .keyDown(webElement.getWebElement(), (org.openqa.selenium.Keys) key)
-        return this
-    }
-
-    /**
-     * Отпустить нажатую клавишу-модификатор
-     * @param key Код клавиши-модификатора
-     * @return Объект Список действий {@link Actions}
-     */
-    public Actions keyUp(Modificators key) {
-        getActions().keyUp((org.openqa.selenium.Keys) key)
-        return this
-    }
-
-    /**
-     * Отпустить нажатую клавишу-модификатор на веб элементе
-     * @param webElement Веб элемент {@link WebElement}
-     * @param key Код клавиши-модификатора
-     * @return Объект Список действий {@link Actions}
-     */
-    public Actions keyUp(WebElement webElement, Modificators key) {
-        getActions()
-                .keyUp(webElement.getWebElement(), (org.openqa.selenium.Keys) key)
-        return this
     }
 
     /**
      * Отправить нажатие клавиш
      * @param keys Список клавиш
-     * @return Объект Список действий {@link Actions}
      */
-    public Actions sendKeys(String keys) {
+    public void sendKeys(String keys) {
         getActions().sendKeys(keys)
-        return this
     }
 
     /**
      * Отправить нажатие клавиш веб элементу
      * @param element Веб элемент {@link WebElement}
      * @param keys Список кодов клавиш
-     * @return Объект Список действий {@link Actions}
      */
-    public Actions sendKeys(WebElement webElement, String keys) {
+    public void sendKeys(WebElement webElement, String keys) {
         getActions().sendKeys(webElement.getWebElement(), keys)
-        return this
     }
 
     /**
      * Сместить курсор мыши на заданные отспупы
      * @param xOffset Смещение по X
      * @param yOffset Смещение по Y
-     * @return Объект Список действий {@link Actions}
      */
-    public Actions mouseMove(int xOffset, int yOffset) {
+    public void mouseMove(int xOffset, int yOffset) {
         getActions().moveByOffset(xOffset, yOffset)
-        return this
     }
 
     /**
      * Переместить курсор мыши на веб элемент
      * @param element Веб элемент {@link WebElement}
-     * @return Объект Список действий {@link Actions}
      */
-    public Actions mouseMove(WebElement element) {
+    public void mouseMove(WebElement element) {
         getActions().moveToElement(element.getWebElement())
-        return this
-    }
-
-    /**
-     * Перенести один веб элемент на другой
-     * @param source Веб элемент который будет перетаскиваться {@link WebElement}
-     * @param target Веб элемент на который будет перетаскиваться веб
-     *                элемент {@link WebElement}
-     * @return Объект Список действий {@link Actions}
-     */
-    public Actions dragAndDrop(WebElement source, WebElement target) {
-        getActions().dragAndDrop(
-                source.getWebElement(),
-                target.getWebElement())
-        return this
-    }
-
-    /**
-     * Перенести один веб элемент на заданное расстояние
-     * @param webElement Веб элемент {@link WebElement}
-     * @param xOffset Смещение по X
-     * @param yOffset Смещение по Y
-     * @return Объект список действий {@link Actions}
-     */
-    public Actions dragAndDrop(WebElement webElement, int xOffset, int yOffset) {
-        getActions().dragAndDropBy(
-                webElement.getWebElement(),
-                xOffset,
-                yOffset
-        )
-        return this
     }
 
     /**
@@ -1020,21 +786,21 @@ class Actions {
         return _actions
     }
 
-    private setActions(org.openqa.selenium.interactions.Actions actions) {
+    private void setActions(org.openqa.selenium.interactions.Actions actions) {
         _actions = actions
     }
 }
 
 /* ------------------------------------------------------------------------------ */
 
-def driver = new WebDriver("Chrome")
-driver.setX(0)
-driver.setY(0)
-driver.setWidth(1024)
-driver.setHeight(768)
+def webDriver = new WebDriver("Chrome")
+webDriver.setX(0)
+webDriver.setY(0)
+webDriver.setWidth(1024)
+webDriver.setHeight(768)
 
-driver.open("http://google.ru")
+webDriver.open("http://google.ru")
 
-driver.quit()
+webDriver.quit()
 
 /* ------------------------------------------------------------------------------ */

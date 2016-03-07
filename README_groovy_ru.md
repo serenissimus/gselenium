@@ -1,6 +1,6 @@
 ## Класс Date
 [тег]: Date
-```java
+```groovy
 // Класс для работы с датой
 class Date
 
@@ -61,7 +61,7 @@ class Date
 #### Пример работы с классом Date
 
 Получаем дату "протухания" Cookie
-```java
+```groovy
 // получаем дату у Cookie
 def date = cookie.getExpiry()
 
@@ -78,7 +78,7 @@ if (date != null) {
 ```
 
 Меняем дату у Cookie
-```java
+```groovy
 // создаём объект
 def newDate = new Date()
 
@@ -97,7 +97,7 @@ cookie.setExpiry(newDate)
 
 ## Класс Cookie
 [тег]: Cookie
-```java
+```groovy
 // Класс для работы с Cookie
 class Cookie
 
@@ -149,12 +149,12 @@ class Cookie
 #### Пример работы с классом Cookie
 
 Получение списка Cookie и их распечатка(неполная)
-```java
+```groovy
 // получаем список Cookie
 def cookies = webDriver.getCookies()
 
 // запускаем цикл прохода по списку Cookie
-for (def i = 0; i < cookies.length; ++i) {
+for (def i = 0; i < cookies.size(); ++i) {
 
     // печатаем имя Cookie
     println "Имя = " + cookies[i].getName()
@@ -165,7 +165,7 @@ for (def i = 0; i < cookies.length; ++i) {
 ```
 
 Установка Cookie сессии для "КиноПоиск"
-```java
+```groovy
 // создаём Cookie
 def cookieKinopoisk = new Cookie()
 
@@ -181,12 +181,12 @@ webDriver.addCoockie(cookieKinopoisk)
 ```
 
 Удаляем Cookie от google
-```java
+```groovy
 // получаем список Cookie
 def allCookies = webDriver.getCookies()
 
 // запускаем цикл прохода по списку Cookie
-for (def j = 0; j < allCookies.length; ++j) {
+for (def j = 0; j < allCookies.size(); ++j) {
 
     // проверяем что домен у Cookie содержит "google"
     if (allCookies[j].getDomain().contains("google")) {
@@ -200,7 +200,7 @@ for (def j = 0; j < allCookies.length; ++j) {
 
 ## Класс WebElement
 [тег]: WebElement
-```java
+```groovy
 // Класс для работы с веб элементами на странице
 class WebElement
 
@@ -238,7 +238,7 @@ class WebElement
 #### Пример работы с классом WebElement
 
 Получение веб элемента
-```java
+```groovy
 // ищем нащ веб элемент по CSS-селектору через WebDriver
 def elementInput = webDriver.findElement("#inp")
 
@@ -252,37 +252,37 @@ if (elementInput != null) {
 ```
 
 Получение списка веб элементов
-```java
+```groovy
 // получаем список картинок по CSS-селектору
-// если не найдётся ни одна картинка, то размер массива будет 0 
+// если не найдётся ни одна картинка, то размер массива будет 0
 def elementsImg = webDriver.findElements("img")
 
 // запускаем цикл прохода по списку картинок
-for (def i = 0; i < elementsImg.length; ++i) {
+for (def i = 0; i < elementsImg.size(); ++i) {
 
     // печатаем координаты и размер каждой картинки
     println "X = " + elementsImg[i].getX()
     println "Y = " + elementsImg[i].getY()
     println "Width = " + elementsImg[i].getWidth()
-    println "Height = " + elementsImg[i].getHeight() 
+    println "Height = " + elementsImg[i].getHeight()
 }
 ```
 
 
 ## Класс WebDriver
 [тег]: WebDriver
-```java
+```groovy
 // Класс для взаимодействия с веб браузером
-class WebDriver 
+class WebDriver
 
     // Конструктор с параметром типа браузера
-    //   параметр type: Строка ("Chrome","Firefox","Htmlunit","Ie")
+    //   параметр type: Строка тип браузера ("Chrome", "Firefox", "HtmlUnit", "Ie")
     WebDriver(String type)
 
     // Открыть страницу сайта в браузере
     //   параметр url: Строка адрес
     void open(String url)
-    
+
     // Закрыть браузер
     void quit()
 
@@ -304,16 +304,16 @@ class WebDriver
 
     // Установить положение окна браузера по X относительно верхнего левого угла
     //   параметр x: Целое число
-    void setX(int x) 
+    void setX(int x)
 
     // Вернуть положение окна браузера по Y относительно верхнего левого угла
     //   возвращает: Целое число
     int getY()
-    
+
     // Установить положение окна браузера по Y относительно верхнего левого угла
     //   параметр y: Целое число
     void setY(int y)
-    
+
     // Вернуть ширину окна браузера
     //   возвращает: Целое число
     int getWidth()
@@ -328,7 +328,7 @@ class WebDriver
 
     // Установить высоту окна браузера
     //   параметр height: Целое число
-    void setHeight(int height) 
+    void setHeight(int height)
 
     // Максимализировать("распахнуть") окно браузера во весь экран
     void maximize()
@@ -345,37 +345,143 @@ class WebDriver
     List<WebElement> findElements(String cssPath)
 
     // Вернуть список Cookie
-    //   возвращает: Список объектов класса Cookie 
+    //   возвращает: Список объектов класса Cookie
     List<Cookie> getCookies()
 
     // Добавить Cookie
     //   параметр cookie: Объект класса Cookie
     void addCoockie(Cookie cookie)
-    
+
     // Удалить Cookie
     //   параметр cookie: Объект класса Cookie
     void deleteCookie(Cookie cookie)
 
     // Удалить все Cookie
     void deleteAllCookies()
-    
-    // Выполнить JavaScript. Параметры для скрипта передаются вторым параметром.
-    // Параметры внутри JavaScript можно получить через
-    // "arguments[<индекс аргумента>]"
-    //   параметр script: Строка
-    //   параметр arguments: Список объектов
-    void executeJavaScript(String script, List<Object> arguments)
 ```
 
 #### Пример работы с классом WebDriver
 
-```java
+Создание браузера Chrome
+```groovy
+// создаём окно браузера Chrome
+def webDriver = new WebDriver(WebDriver.Type.Chrome)
+
+// открываем Google
+webDriver.open("http://google.com")
+
+// печатаем текущий адрес страницы
+println "Url = " + webDriver.getUrl()
+
+// печатаем текущий заголовок страницы
+println "Title = " + webDriver.getTitle()
+
+// делаем скриншот содержимого окна браузера
+webDriver.getScreenshot("screenshot.png")
+
+// закрываем окно браузера
+webDriver.quit()
+```
+
+Перемещение и изменение размера окна браузера
+```groovy
+
+// устанавливаем координату X окна браузера
+webDriver.setX(0)
+
+// устанавливаем координату Y окна браузера
+webDriver.setY(0)
+
+// устанавливаем ширину окна браузера
+webDriver.setWidth(1024)
+
+// устанавливаем высоту окна браузера
+webDriver.setHeight(768)
+
+// печатаем координату X окна браузера
+println "X = " + webDriver.getX()
+// печатаем координату Y окна браузера
+println "Y = " + webDriver.getY()
+// печатаем ширину окна браузера
+println "Width = " + webDriver.getWidth()
+// печатаем высоту окна браузера
+println "Height = " + webDriver.getHeight()
+
+// максимизируем("распахиваем") окно браузера
+webDriver.maximize()
+
+// печатаем координату X окна браузера
+println "X = " + webDriver.getX()
+// печатаем координату Y окна браузера
+println "Y = " + webDriver.getY()
+// печатаем ширину окна браузера
+println "Width = " + webDriver.getWidth()
+// печатаем высоту окна браузера
+println "Height = " + webDriver.getHeight()
+```
+
+Работа с Cookie
+```groovy
+// берём список Cookie
+def cookies = webDriver.getCookies()
+
+// печатаем количество Cookie
+println "Cookies count = " + cookies.size()
+
+
+// удаляем все Cookie
+webDriver.deleteAllCookies()
+
+
+// создаём новый Cookie
+def cookie = new Cookie()
+
+//заполняем значения Cookie
+cookie.setDomain("google.com")
+cookie.setPath("/")
+cookie.setName("Session")
+cookie.setValue("112233445566778899aa")
+
+// создаём дату
+def date = new Date()
+
+// устанавливаем значения даты
+date.setYear(2000)
+date.setMonth(2)
+date.setDay(2)
+date.setHours(15)
+date.setMinutes(56)
+date.setSeconds(34)
+
+// устанавливаем дату "протухания" Cookie
+cookie.setExpiry(date)
+
+// добавляем новый Cookie в браузер
+webDriver.addCoockie(cookie)
+```
+
+Поиск веб элементов
+```groovy
+// ищем веб элемент с id="id-el"
+def element = webDriver.findElement("#id-el")
+
+// проверяем найден ли веб элемент
+if (element != null) {
+    // если найден то печатаем информацию что нашли веб элемент
+    println "Web element found"
+}
+
+// получаем список картинок
+def elements = webDriver.findElements("img")
+
+// печатаем количество найденых картинок
+println "Images count = " + elements.size()
 ```
 
 
 ## Класс Actions
 [тег]: Actions
-```java
+```groovy
 // Класс для создания цепочек действия и выполнения их в браузере
 class Actions
 
@@ -384,106 +490,36 @@ class Actions
     Actions(WebDriver webDriver)
 
     // Кликнуть левой кнопкой мыши
-    //   возвращает: Объект класса Actions
-    Actions click()
+    void click()
 
     // Кликнуть левой кнопкой мыши по заданному веб элементу
     //   параметр webElement: Объект класса WebElement
-    //   возвращает: Объект класса Actions
-    Actions click(WebElement webElement)
-
-    // Кликнуть по содержимому
-    //   возвращает: Объект класса Actions
-    Actions clickContext()
-    
-    // Кликнуть по содержимому заданного веб элемента
-    //   параметр webElement: Объект класса WebElement
-    //   возвращает: Объект класса Actions
-    Actions clickContext(WebElement webElement)
-    
-    // Зажать левую кнопку мыши
-    //   возвращает: Объект класса Actions
-    Actions clickAndHold()
-
-    // Зажать левую кнопку мыши на заданный веб элементе
-    //   параметр webElement: Объект класса WebElement
-    //   возвращает: Объект класса Actions
-    Actions clickAndHold(WebElement webElement) 
-
-    // Отпустить левую кнопку мыши
-    //   возвращает: Объект класса Actions
-    Actions releaseHold()
-
-    // Отпустить левую кнопку мыши на заданном веб элементе
-    //   параметр webElement: Объект класса WebElement
-    //   возвращает: Объект класса Actions
-    Actions releaseHold(WebElement webElement)
+    void click(WebElement webElement)
 
     // Кликнуть левой кнопкой мыши два раза
-    //   возвращает: Объект класса Actions
-    Actions doubleClick()
+    void doubleClick()
 
     // Кликнуть левой кнопкой мыши два раза по заданному веб элементу
     //   параметр webElement: Объект класса WebElement
-    //   возвращает: Объект класса Actions
-    Actions doubleClick(WebElement webElement)
-
-    // Нажать клавишу-модификатор и удерживать её
-    //   параметр key: Клавиша-модификатор
-    //   возвращает: Объект класса Actions
-    Actions keyDown(Modificators key)
-
-    // Нажать клавишу-модификатор на заданном веб элементе и удерживать её
-    //   параметр webElement: Объект класса WebElement
-    //   параметр key: Клавиша-модификатор
-    //   возвращает: Объект класса Actions
-    Actions keyDown(WebElement webElement, Modificators key)
-
-    // Отпустить нажатую клавишу-модификатор
-    //   параметр key: Клавиша-модификатор
-    //   возвращает: Объект класса Actions
-    Actions keyUp(Modificators key)
-    
-    // Отпустить нажатую клавишу-модификатор на заданном веб элементе
-    //   параметр webElement: Объект класса WebElement
-    //   параметр key: Клавиша-модификатор
-    //   возвращает: Объект класса Actions
-    Actions keyUp(WebElement webElement, Modificators key)
+    void doubleClick(WebElement webElement)
 
     // Отправить нажатие клавиш
     //   параметр keys: Строка
-    //   возвращает: Объект класса Actions
-    Actions sendKeys(String keys)
-    
+    void sendKeys(String keys)
+
     // Отправить нажатие клавиш заданному веб элементу
     //   параметр webElement: Объект класса WebElement
     //   параметр keys: Строка
-    //   возвращает: Объект класса Actions
-    Actions sendKeys(WebElement webElement, String keys)
+    void sendKeys(WebElement webElement, String keys)
 
     // Сместить курсор мыши на заданные отступы
     //   параметр xOffset: Целое число
     //   параметр yOffset: Целое число
-    //   возвращает: Объект класса Actions
-    Actions mouseMove(int xOffset, int yOffset)
+    void mouseMove(int xOffset, int yOffset)
 
     // Переместить курсор мыши на заданный веб элемент
     //   параметр webElement: Объект класса WebElement
-    //   возвращает: Объект класса Actions
-    Actions mouseMove(WebElement webElement)
-    
-    // Переместить один веб элемент на другой
-    //   параметр source: Объект класса WebElement
-    //   параметр target: Объект класса WebElement
-    //   возвращает: Объект класса Actions
-    Actions dragAndDrop(WebElement source, WebElement target)
-
-    // Переместить один веб элемент на заданный отступ
-    //   параметр webElement: Объект класса WebElement
-    //   параметр xOffset: Целое число
-    //   параметр yOffset: Целое число
-    //   возвращает: Объект класса Actions
-    Actions dragAndDrop(WebElement webElement, int xOffset, int yOffset)
+    void mouseMove(WebElement webElement)
 
     // Выполнить цепочку действий
     void perform()
@@ -491,5 +527,83 @@ class Actions
 
 #### Пример работы с классом Actions
 
-```java
+Ввод текста в поля
+```groovy
+// создаём объект действий
+def actions = new Actions(webDriver)
+
+// находим наше поля ввода
+def elementInput = webDriver.findElement("#inp")
+
+// если поле ввода найдено
+if (elementInput != null) {
+    // добавляем действие ввода текста в поле
+    actions.sendKeys(elementInput, "hello world")
+    // добавляем действие нажатие Enter
+    actions.sendKeys(elementInput, Keys.ENTER)
+    // просим выполнить наши действия
+    actions.perform()
+}
+```
+
+Клик и двойной клик по веб элементам
+```groovy
+// создаём объект действий
+def actions = new Actions(webDriver)
+// находим кнопку с id=btn1
+def elementButton1 = webDriver.findElement("#btn1")
+// находим кнопку с id=btn2
+def elementButton2 = webDriver.findElement("#btn2")
+
+// если обе кнопки найдены
+if ((elementButton1 != null) && (elementButton2)) {
+    // добавляем действие перемещение курсора на кнопку 1
+    actions.mouseMove(elementButton1)
+    // добавляем действие клика по кнопке
+    actions.click()
+    // добавляем действие перемещение курсора на кнопку 2
+    actions.mouseMove(elementButton2)
+    // добавляем действие двойного клика
+    actions.doubleClick()
+    // просим выполнить наши действия
+    actions.perform()
+}
+```
+
+Упрощёная форма клика по элементам(без перемещения курсора)
+```groovy
+// создаём объект действий
+def actions = new Actions(webDriver)
+// находим картинку с id=img
+def elementImg = webDriver.findElement("#img")
+
+// если картинка найдена
+if (elementImg != null) {
+    // добавляем действие клика по картинке
+    actions.click(elementImg)
+    // просим выполнить наши действия
+    actions.perform()
+}
+```
+
+Клик по всем картинкам на странице
+```groovy
+// создаём объект действий
+def actions = new Actions(webDriver)
+// находим все картинки на странице
+def elementsImgs = webDriver.findElements("img")
+
+// запускаем цикл прохода по всем картинкам в нашем списке
+// если конечно на сайте есть картинки
+for (def i = 0; i < elementsImgs.size(); ++i) {
+    // добавляем действие клика по картинке
+    actions.click(elementsImgs[i])
+}
+
+// если картинок нет, то нет смысла выполнять действия
+// проверяем что хоть одна картинка есть
+if (elementsImgs.size() > 0) {
+    // просим выполнить наши действия
+    actions.perform()
+}
 ```
